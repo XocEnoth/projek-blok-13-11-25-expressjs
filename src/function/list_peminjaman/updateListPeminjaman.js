@@ -1,17 +1,17 @@
-import { list_peminjaman } from "../../data/list_peminjaman.js";
-import { user } from "../../data/user.js";
-import { buku } from "../../data/buku.js";
+import { list_peminjaman } from "../../../data/list_peminjaman.js";
+import { pengguna } from "../../../data/pengguna.js";
+import { buku } from "../../../data/buku.js";
 
 export default function updateListPeminjaman(req, res) {
     try {
         const id = Number(req.params.id);
-        const { id_user, id_buku } = req.body;
+        const { id_pengguna, id_buku } = req.body;
 
         let listPinjaman = [];
         let beforeChanges;
         let afterChanges;
 
-        if (!id || !id_user || !id_buku) {
+        if (!id || !id_pengguna || !id_buku) {
             return res.status(400).send({
                 status: "invalid",
                 msg: "anda tidak memberikan data dengan benar!",
@@ -22,31 +22,34 @@ export default function updateListPeminjaman(req, res) {
             if (list.id === id) {
                 beforeChanges = {
                     id: list.id,
-                    id_user: list.id_user,
+                    id_pengguna: list.id_pengguna,
                     id_buku: list.id_buku,
                 };
 
                 afterChanges = {
                     id: id,
-                    id_user: id_user,
+                    id_pengguna: id_pengguna,
                     id_buku: id_buku,
                 };
 
-                list.id_user = id_user;
+                list.id_pengguna = id_pengguna;
                 list.id_buku = id_buku;
             }
         });
 
         list_peminjaman.forEach((list) => {
-            user.forEach((usr) => {
-                buku.forEach((bku) => {
-                    if (list.id_buku === bku.id && list.id_user === usr.id) {
+            pengguna.forEach((user) => {
+                buku.forEach((book) => {
+                    if (
+                        list.id_buku === book.id &&
+                        list.id_pengguna === user.id
+                    ) {
                         listPinjaman.push({
                             id: list.id,
-                            id_user: list.id_user,
+                            id_pengguna: list.id_pengguna,
                             id_buku: list.id_buku,
-                            username: usr.username,
-                            buku: bku.buku,
+                            username: user.username,
+                            buku: book.buku,
                         });
                     }
                 });
@@ -61,7 +64,7 @@ export default function updateListPeminjaman(req, res) {
         });
     } catch (error) {
         console.error(
-            "!! ERROR : ./src/function/updateListPeminjaman.js !!\n\n",
+            "!! ERROR : ./src/function/list_peminjaman/updateListPeminjaman.js !!\n\n",
             error
         );
         return res.status(500).send({

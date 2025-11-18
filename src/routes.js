@@ -1,23 +1,26 @@
-import getAllUsers from "./function/getAllUsers.js";
-import getAllBuku from "./function/getAllBuku.js";
-import getAllListPeminjaman from "./function/getAllListPeminjaman.js";
-import addListPeminjaman from "./function/addListPeminjaman.js";
-import updateListPeminjaman from "./function/updateListPeminjaman.js";
-import deleteListPeminjaman from "./function/deleteListPeminjaman.js";
+import getAllUsers from "./function/pengguna/getAllUsers.js";
+import getAllBuku from "./function/buku/getAllBuku.js";
+import getAllListPeminjaman from "./function/list_peminjaman/getAllListPeminjaman.js";
+import addListPeminjaman from "./function/list_peminjaman/addListPeminjaman.js";
+import updateListPeminjaman from "./function/list_peminjaman/updateListPeminjaman.js";
+import deleteListPeminjaman from "./function/list_peminjaman/deleteListPeminjaman.js";
 
 export default function routes(app) {
     app.get("/", (req, res) => {
-        return res.status(200).send("Hello!");
+        return res.status(200).send("Peminjaman buku!");
     });
 
+    // users
     app.get("/users", (req, res) => {
         getAllUsers(req, res);
     });
 
+    // buku
     app.get("/buku", (req, res) => {
         getAllBuku(req, res);
     });
 
+    // list peminjaman
     app.get("/list-peminjaman", (req, res) => {
         getAllListPeminjaman(req, res);
     });
