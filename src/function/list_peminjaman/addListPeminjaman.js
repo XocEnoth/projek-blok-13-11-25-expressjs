@@ -12,8 +12,7 @@ export default async function addListPeminjaman(req, res) {
         pengguna.forEach((user) => {
             if (
                 user.username === req.body.username &&
-                user.password === req.body.password &&
-                (user.role === "staff" || user.role === "admin")
+                user.password === req.body.password
             ) {
                 hasAccess = true;
             }

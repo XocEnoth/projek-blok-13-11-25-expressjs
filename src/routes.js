@@ -1,5 +1,6 @@
 import getAllUsers from "./function/pengguna/getAllUsers.js";
 import getAllBuku from "./function/buku/getAllBuku.js";
+import addBuku from "./function/buku/addBuku.js";
 import getListPeminjaman from "./function/list_peminjaman/getListPeminjaman.js";
 import getAllListPeminjaman from "./function/list_peminjaman/getAllListPeminjaman.js";
 import addListPeminjaman from "./function/list_peminjaman/addListPeminjaman.js";
@@ -19,6 +20,10 @@ export default async function routes(app) {
     // buku
     app.get("/buku", async (req, res) => {
         await getAllBuku(req, res);
+    });
+
+    app.post("/buku", async (req, res) => {
+        await addBuku(req, res);
     });
 
     // list peminjaman
