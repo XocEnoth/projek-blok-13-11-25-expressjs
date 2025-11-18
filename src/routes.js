@@ -1,4 +1,5 @@
 import getAllUsers from "./function/pengguna/getAllUsers.js";
+import login from "./function/pengguna/login.js";
 import getAllBuku from "./function/buku/getAllBuku.js";
 import addBuku from "./function/buku/addBuku.js";
 import updateBuku from "./function/buku/updateBuku.js";
@@ -12,6 +13,10 @@ import deleteListPeminjaman from "./function/list_peminjaman/deleteListPeminjama
 export default async function routes(app) {
     app.get("/", (req, res) => {
         return res.status(200).send("Peminjaman buku!");
+    });
+
+    app.post("/login", async (req, res) => {
+        await login(req, res);
     });
 
     // users
