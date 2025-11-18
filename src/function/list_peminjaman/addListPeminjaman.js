@@ -5,7 +5,8 @@ import checkSession from "../pengguna/checkSession.js";
 
 export default async function addListPeminjaman(req, res) {
     try {
-        const { id_pengguna, id_buku } = req.body;
+        const id_pengguna = req?.body?.id_pengguna;
+        const id_buku = req?.body?.id_buku;
         let listPinjaman = [];
         let last_insert = [];
         let hasAccess = await checkSession();
@@ -32,7 +33,7 @@ export default async function addListPeminjaman(req, res) {
 
         pengguna.forEach((user) => {
             buku.forEach(async (book) => {
-                if (user.id === id_pengguna && book.id === id_buku) {
+                if (user?.id === id_pengguna && book?.id === id_buku) {
                     await last_insert.push({
                         id: list_peminjaman[list_peminjaman.length - 1].id,
                         id_pengguna: id_pengguna,
@@ -48,8 +49,8 @@ export default async function addListPeminjaman(req, res) {
             pengguna.forEach((user) => {
                 buku.forEach(async (book) => {
                     if (
-                        list.id_buku === book.id &&
-                        list.id_pengguna === user.id
+                        list?.id_buku === book?.id &&
+                        list?.id_pengguna === user?.id
                     ) {
                         await listPinjaman.push({
                             id: list.id,

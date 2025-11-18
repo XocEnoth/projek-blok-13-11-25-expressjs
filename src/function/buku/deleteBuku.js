@@ -3,7 +3,7 @@ import checkSession from "../pengguna/checkSession.js";
 
 export default async function deleteBuku(req, res) {
     try {
-        const id = Number(req.params.id);
+        const id = Number(req?.params?.id);
         let hasAccess = await checkSession();
         let status = false;
 
@@ -22,7 +22,7 @@ export default async function deleteBuku(req, res) {
         }
 
         buku.forEach((list, index) => {
-            if (list.id === id) {
+            if (list?.id === id) {
                 buku.splice(index, 1);
                 status = true;
             }

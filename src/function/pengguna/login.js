@@ -2,12 +2,13 @@ import { pengguna } from "../../../data/pengguna.js";
 import { cookies } from "../../../data/cookies.js";
 
 export default function login(req, res) {
-    const { username, password } = req.body;
+    const username = req?.body?.username;
+    const password = req?.body?.password;
     let success = false;
 
     pengguna.forEach((user) => {
-        if (user.username === username && user.password === password) {
-            cookies.session.uid = user.id;
+        if (user?.username === username && user?.password === password) {
+            cookies.session.uid = user?.id;
             success = true;
         }
     });
@@ -15,7 +16,7 @@ export default function login(req, res) {
     if (success) {
         return res.status(200).send({
             status: "success",
-            msg: "berhasil login!",
+            msg: "selamat, anda berhasil login!",
         });
     }
     return res.status(400).send({

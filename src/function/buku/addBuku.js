@@ -3,14 +3,14 @@ import { buku } from "../../../data/buku.js";
 
 export default async function addBuku(req, res) {
     try {
-        const { nama_buku } = req.body;
+        const nama_buku = req?.body?.nama_buku;
         let hasAccess = false;
 
         pengguna.forEach((user) => {
             if (
-                user.username === req.body.username &&
-                user.password === req.body.password &&
-                (user.role === "admin" || user.role === "staff")
+                user?.username === req?.body?.username &&
+                user?.password === req?.body?.password &&
+                (user?.role === "admin" || user?.role === "staff")
             ) {
                 hasAccess = true;
             }

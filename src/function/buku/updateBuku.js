@@ -3,8 +3,8 @@ import checkSession from "../pengguna/checkSession.js";
 
 export default async function updateBuku(req, res) {
     try {
-        const id = Number(req.params.id);
-        const { nama_buku } = req.body;
+        const id = Number(req?.params?.id);
+        const nama_buku = req?.body?.nama_buku;
         let hasAccess = await checkSession();
 
         if (hasAccess !== true) {
@@ -22,7 +22,7 @@ export default async function updateBuku(req, res) {
         }
 
         buku.forEach((book) => {
-            if (book.id === id) {
+            if (book?.id === id) {
                 book.buku = nama_buku;
             }
         });

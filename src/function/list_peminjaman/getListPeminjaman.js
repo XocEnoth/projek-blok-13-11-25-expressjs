@@ -5,7 +5,7 @@ import checkSession from "../pengguna/checkSession.js";
 
 export default async function getListPeminjamanById(req, res) {
     try {
-        const { search } = req.body;
+        const search = req?.body?.search;
         let listPinjaman = [];
         let hasAccess = await checkSession();
 
@@ -27,11 +27,11 @@ export default async function getListPeminjamanById(req, res) {
             pengguna.forEach((user) => {
                 buku.forEach((book) => {
                     if (
-                        (list.id === search ||
-                            user.username === search ||
-                            book.buku === search) &&
-                        list.id_pengguna === user.id &&
-                        list.id_buku === book.id
+                        (list?.id === search ||
+                            user?.username === search ||
+                            book?.buku === search) &&
+                        list?.id_pengguna === user?.id &&
+                        list?.id_buku === book?.id
                     ) {
                         listPinjaman.push({
                             id: list.id,

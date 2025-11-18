@@ -19,8 +19,8 @@ export default async function getAllListPeminjaman(req, res) {
             pengguna.forEach((user) => {
                 buku.forEach(async (book) => {
                     if (
-                        list.id_buku === book.id &&
-                        list.id_pengguna === user.id
+                        list?.id_buku === book?.id &&
+                        list?.id_pengguna === user?.id
                     ) {
                         await listPinjaman.push({
                             id: list.id,
