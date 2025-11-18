@@ -4,7 +4,7 @@ import checkSession from "../pengguna/checkSession.js";
 export default async function deleteBuku(req, res) {
     try {
         const id = Number(req?.params?.id);
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff"]);
         let status = false;
 
         if (hasAccess !== true) {

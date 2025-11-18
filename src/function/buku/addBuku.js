@@ -1,44 +1,34 @@
-import { pengguna } from "../../../data/pengguna.js";
 import { buku } from "../../../data/buku.js";
+import checkSession from "../pengguna/checkSession.js";
 
 export default async function addBuku(req, res) {
     try {
         const nama_buku = req?.body?.nama_buku;
-        let hasAccess = false;
+        let hasAccess = await checkSession(["admin", "staff"]);
 
-        pengguna.forEach((user) => {
-            if (
-                user?.username === req?.body?.username &&
-                user?.password === req?.body?.password &&
-                (user?.role === "admin" || user?.role === "staff")
-            ) {
-                hasAccess = true;
-            }
-        });
-
-        if (hasAccess) {
-            if (!nama_buku) {
-                return res.status(400).send({
-                    status: "invalid",
-                    msg: "anda tidak memberikan data dengan benar!",
-                });
-            }
-
-            buku.push({
-                id: buku[buku.length - 1].id + 1,
-                buku: nama_buku,
-            });
-
-            return res.status(200).send({
-                status: "success",
-                msg: "buku berhasil ditambahkan",
-            });
-        } else {
+        if (hasAccess !== true) {
             return res.status(400).send({
                 status: "invalid",
                 msg: "maaf, kami tidak bisa menyelesaikan proses yang anda minta!",
             });
         }
+
+        if (!nama_buku) {
+            return res.status(400).send({
+                status: "invalid",
+                msg: "maaf, kami tidak bisa menyelesaikan proses yang anda minta!",
+            });
+        }
+
+        buku.push({
+            id: buku[buku.length - 1].id + 1,
+            buku: nama_buku,
+        });
+
+        return res.status(200).send({
+            status: "success",
+            msg: "buku berhasil ditambahkan",
+        });
     } catch (error) {
         console.error(
             "!! ERROR : ./src/function/buku/addBuku.js !!\n\n",

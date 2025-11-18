@@ -1,14 +1,17 @@
 import { pengguna } from "../../../data/pengguna.js";
 import { cookies } from "../../../data/cookies.js";
 
-export default function checkSession() {
+export default function checkSession(roles) {
     try {
+        let isExists = false;
         pengguna.forEach((user) => {
-            if (user.id === cookies.session.uid) {
-                return true;
-            }
-            return false;
+            roles.forEach((role) => {
+                if (user.id === cookies.session.uid && user.role === role) {
+                    isExists = true;
+                }
+            });
         });
+        return isExists;
     } catch (error) {
         console.error(
             "!! ERROR : ./src/function/pengguna/checkSession.js !!\n\n",

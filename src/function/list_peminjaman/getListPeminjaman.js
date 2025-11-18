@@ -7,7 +7,7 @@ export default async function getListPeminjamanById(req, res) {
     try {
         const search = req?.body?.search;
         let listPinjaman = [];
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff", "user"]);
 
         if (hasAccess !== true) {
             return res.status(400).send({

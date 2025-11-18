@@ -6,7 +6,7 @@ import checkSession from "../pengguna/checkSession.js";
 export default async function getAllListPeminjaman(req, res) {
     try {
         let listPinjaman = [];
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff"]);
 
         if (hasAccess !== true) {
             return res.status(400).send({

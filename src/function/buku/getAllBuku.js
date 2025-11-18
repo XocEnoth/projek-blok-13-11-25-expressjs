@@ -3,13 +3,15 @@ import checkSession from "../pengguna/checkSession.js";
 
 export default async function getAllBuku(req, res) {
     try {
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff", "user"]);
+
         if (hasAccess !== true) {
             return res.status(400).send({
                 status: "invalid",
-                msg: "username atau password salah!",
+                msg: "maaf, kami tidak bisa menyelesaikan proses yang anda minta!",
             });
         }
+
         return res.status(200).send(buku);
     } catch (error) {
         console.error(

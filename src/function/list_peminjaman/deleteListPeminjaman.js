@@ -9,7 +9,7 @@ export default async function deleteListPeminjaman(req, res) {
         let listPinjaman = [];
         let listDihapus;
         let status = false;
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff"]);
 
         if (hasAccess !== true) {
             return res.status(400).send({

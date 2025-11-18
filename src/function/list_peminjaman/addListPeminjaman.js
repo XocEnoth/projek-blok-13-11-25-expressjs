@@ -9,7 +9,7 @@ export default async function addListPeminjaman(req, res) {
         const id_buku = req?.body?.id_buku;
         let listPinjaman = [];
         let last_insert = [];
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff", "user"]);
 
         if (hasAccess !== true) {
             return res.status(400).send({

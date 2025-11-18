@@ -12,7 +12,7 @@ export default async function updateListPeminjaman(req, res) {
         let listPinjaman = [];
         let beforeChanges;
         let afterChanges;
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff"]);
 
         if (hasAccess !== true) {
             return res.status(400).send({

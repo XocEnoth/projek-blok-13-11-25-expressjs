@@ -5,7 +5,7 @@ export default async function updateBuku(req, res) {
     try {
         const id = Number(req?.params?.id);
         const nama_buku = req?.body?.nama_buku;
-        let hasAccess = await checkSession();
+        let hasAccess = await checkSession(["admin", "staff"]);
 
         if (hasAccess !== true) {
             return res.status(400).send({
@@ -26,6 +26,7 @@ export default async function updateBuku(req, res) {
                 book.buku = nama_buku;
             }
         });
+
         return res.status(200).send({
             status: "success",
             msg: "buku berhasil diupdate",
