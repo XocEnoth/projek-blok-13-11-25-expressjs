@@ -1,6 +1,8 @@
 import getAllUsers from "./function/pengguna/getAllUsers.js";
 import getAllBuku from "./function/buku/getAllBuku.js";
 import addBuku from "./function/buku/addBuku.js";
+import updateBuku from "./function/buku/updateBuku.js";
+import deleteBuku from "./function/buku/deleteBuku.js";
 import getListPeminjaman from "./function/list_peminjaman/getListPeminjaman.js";
 import getAllListPeminjaman from "./function/list_peminjaman/getAllListPeminjaman.js";
 import addListPeminjaman from "./function/list_peminjaman/addListPeminjaman.js";
@@ -24,6 +26,14 @@ export default async function routes(app) {
 
     app.post("/buku", async (req, res) => {
         await addBuku(req, res);
+    });
+
+    app.put("/buku/:id", async (req, res) => {
+        await updateBuku(req, res);
+    });
+
+    app.delete("/buku/:id", async (req, res) => {
+        await deleteBuku(req, res);
     });
 
     // list peminjaman
