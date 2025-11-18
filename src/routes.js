@@ -1,39 +1,44 @@
 import getAllUsers from "./function/pengguna/getAllUsers.js";
 import getAllBuku from "./function/buku/getAllBuku.js";
+import getListPeminjaman from "./function/list_peminjaman/getListPeminjaman.js";
 import getAllListPeminjaman from "./function/list_peminjaman/getAllListPeminjaman.js";
 import addListPeminjaman from "./function/list_peminjaman/addListPeminjaman.js";
 import updateListPeminjaman from "./function/list_peminjaman/updateListPeminjaman.js";
 import deleteListPeminjaman from "./function/list_peminjaman/deleteListPeminjaman.js";
 
-export default function routes(app) {
+export default async function routes(app) {
     app.get("/", (req, res) => {
         return res.status(200).send("Peminjaman buku!");
     });
 
     // users
-    app.get("/users", (req, res) => {
-        getAllUsers(req, res);
+    app.get("/users", async (req, res) => {
+        await getAllUsers(req, res);
     });
 
     // buku
-    app.get("/buku", (req, res) => {
-        getAllBuku(req, res);
+    app.get("/buku", async (req, res) => {
+        await getAllBuku(req, res);
     });
 
     // list peminjaman
-    app.get("/list-peminjaman", (req, res) => {
-        getAllListPeminjaman(req, res);
+    app.get("/list-peminjaman", async (req, res) => {
+        await getAllListPeminjaman(req, res);
     });
 
-    app.post("/list-peminjaman", (req, res) => {
-        addListPeminjaman(req, res);
+    app.get("/peminjaman", async (req, res) => {
+        await getListPeminjaman(req, res);
     });
 
-    app.put("/list-peminjaman/:id", (req, res) => {
-        updateListPeminjaman(req, res);
+    app.post("/list-peminjaman", async (req, res) => {
+        await addListPeminjaman(req, res);
     });
 
-    app.delete("/list-peminjaman/:id", (req, res) => {
-        deleteListPeminjaman(req, res);
+    app.put("/list-peminjaman/:id", async (req, res) => {
+        await updateListPeminjaman(req, res);
+    });
+
+    app.delete("/list-peminjaman/:id", async (req, res) => {
+        await deleteListPeminjaman(req, res);
     });
 }

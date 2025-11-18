@@ -2,28 +2,23 @@ import { list_peminjaman } from "../../../data/list_peminjaman.js";
 import { pengguna } from "../../../data/pengguna.js";
 import { buku } from "../../../data/buku.js";
 
-export default async function updateListPeminjaman(req, res) {
+export default function getListPeminjamanById(req, res) {
     try {
-        const id = Number(req.params.id);
-        const { id_pengguna, id_buku } = req.body;
-
+        const { search } = req.body;
         let listPinjaman = [];
-        let beforeChanges;
-        let afterChanges;
         let hasAccess = false;
 
         pengguna.forEach((user) => {
             if (
                 user.username === req.body.username &&
-                user.password === req.body.password &&
-                (user.role === "staff" || user.role === "admin")
+                user.password === req.body.password
             ) {
                 hasAccess = true;
             }
         });
 
         if (hasAccess) {
-            if (!id || !id_pengguna || !id_buku) {
+            if (!search) {
                 return res.status(400).send({
                     status: "invalid",
                     msg: "anda tidak memberikan data dengan benar!",
@@ -31,32 +26,16 @@ export default async function updateListPeminjaman(req, res) {
             }
 
             list_peminjaman.forEach((list) => {
-                if (list.id === id) {
-                    beforeChanges = {
-                        id: list.id,
-                        id_pengguna: list.id_pengguna,
-                        id_buku: list.id_buku,
-                    };
-
-                    afterChanges = {
-                        id: id,
-                        id_pengguna: id_pengguna,
-                        id_buku: id_buku,
-                    };
-
-                    list.id_pengguna = id_pengguna;
-                    list.id_buku = id_buku;
-                }
-            });
-
-            list_peminjaman.forEach((list) => {
                 pengguna.forEach((user) => {
-                    buku.forEach(async (book) => {
+                    buku.forEach((book) => {
                         if (
-                            list.id_buku === book.id &&
-                            list.id_pengguna === user.id
+                            (list.id === search ||
+                                user.username === search ||
+                                book.buku === search) &&
+                            list.id_pengguna === user.id &&
+                            list.id_buku === book.id
                         ) {
-                            await listPinjaman.push({
+                            listPinjaman.push({
                                 id: list.id,
                                 id_pengguna: list.id_pengguna,
                                 id_buku: list.id_buku,
@@ -68,21 +47,26 @@ export default async function updateListPeminjaman(req, res) {
                 });
             });
 
+            if (!listPinjaman.length) {
+                return res.status(400).send({
+                    status: "invalid",
+                    msg: "anda tidak memberikan data dengan benar!",
+                });
+            }
+
             return res.status(200).send({
                 status: "success",
-                beforeChanges: beforeChanges,
-                afterChanges: afterChanges,
                 list_peminjaman: listPinjaman,
             });
         } else {
             return res.status(400).send({
                 status: "invalid",
-                msg: "maaf, kami tidak bisa menyelesaikan proses yang anda minta!",
+                msg: "username atau password salah!",
             });
         }
     } catch (error) {
         console.error(
-            "!! ERROR : ./src/function/list_peminjaman/updateListPeminjaman.js !!\n\n",
+            "!! ERROR : ./src/function/list_peminjaman/getListPeminjamanById.js !!\n\n",
             error
         );
         return res.status(500).send({
